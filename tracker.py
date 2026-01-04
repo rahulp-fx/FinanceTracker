@@ -30,12 +30,12 @@ def analyze_finances():
     return
       
   # Basic analysis
-  total_income = df[df['Amount'] > 0]['Amount'].sum()
+  total_income = df[df['Amount'] > 0]['Amount'].sum() #boolean indexing
   total_expenses = df[df['Amount'] < 0]['Amount'].sum()
   net_savings = total_income + total_expenses
   
   print("--- FINANCIAL SUMMARY ---")
-  print(f"Total Income:   ${total_income:.2f}")
+  print(f"Total Income:   ${total_income:.2f}") #: - start of formatting rules
   print(f"Total Expenses: ${abs(total_expenses):.2f}")
   print(f"Net Savings:    ${net_savings:.2f}\n")
   
@@ -47,13 +47,18 @@ def analyze_finances():
   # Pie Chart
   print("Generating spending chart...")
   
-  plt.style.use('ggplot') #(options: 'ggplot', 'seaborn-v0_8', 'fivethirtyeight')
+  plt.style.use('ggplot') #(theme options: 'ggplot', 'seaborn-v0_8', 'fivethirtyeight') 
   
-  fig, ax = plt.subplots(figsize=(10,7)) #set size of window
+  fig, ax = plt.subplots(figsize=(10,7))
+  #figure, axes = width and height of window in inches
 
   # Custom colors and 'Explode' (pops out the largest expense)
   colors = plt.cm.Paired(range(len(category_totals)))
-  explode = [0.1 if (x == max(category_totals)) else 0 for x in category_totals]
+  #cm - colormap, uses predefined palette of "paired" colors
+  
+  explode = [0.1 if (x == max(category_totals)) else 0 for x in category_totals] #list comprehension
+  #If a category is the maximum (your biggest expense), it assigns it a value of 0.1 (which pushes it out of the center).
+  #For everything else, it assigns 0 (keeping them tucked in).
   
   category_totals.plot(
     kind='pie',
